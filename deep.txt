@@ -15,3 +15,14 @@ FROM workflow_document;
 
 SELECT id, get_md5_checksum(FILE_DATA) AS md5_checksum
 FROM workflow_document;
+--------------
+
+
+SELECT 
+    id, -- Replace 'id' with the primary key or unique identifier of the table
+    CASE 
+        WHEN FILE_DATA IS NULL THEN NULL
+        ELSE RAWTOHEX(DBMS_CRYPTO.HASH(FILE_DATA, DBMS_CRYPTO.HASH_MD5))
+    END AS md5_checksum
+FROM 
+    workflow_document;
