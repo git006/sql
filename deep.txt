@@ -1,0 +1,17 @@
+CREATE OR REPLACE FUNCTION get_md5_checksum(p_blob IN BLOB) RETURN VARCHAR2 IS
+    l_hash RAW(16);
+BEGIN
+    IF p_blob IS NULL THEN
+        RETURN NULL;
+    ELSE
+        l_hash := DBMS_CRYPTO.HASH(p_blob, DBMS_CRYPTO.HASH_MD5);
+        RETURN LOWER(RAWTOHEX(l_hash));
+    END IF;
+END;
+/
+
+SELECT id, get_md5_checksum(FILE_DATA) AS md5_checksum
+FROM workflow_document;
+
+SELECT id, get_md5_checksum(FILE_DATA) AS md5_checksum
+FROM workflow_document;
